@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sky iframe</title>
+    <meta name="description" content="360Viewer">
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+      (window.onload = function() {
+        var file = document.querySelector('#getfile');
+        if(file != null){
+          file.onchange = function (){
+            var fileList = file.files;
+            //読み込み
+            var reader = new FileReader();
+            reader.readAsDataURL(fileList[0]);
+            window.URL = window.URL || window.webkitURL ;
+            // Blob URLの作成
+            src = window.URL.createObjectURL( fileList[0]);
+            //読み込み後
+            reader.onload = function  () {
+              $('iframe:first').contents().find('#preview').attr('src', src);
+            };
+          };
+        }
+      })();
+    </script>
+  </head>
+  <!--<body width="600px"; margin-right="auto"; margin-left="auto";>-->
+  <body style="width:600px; margin-right: auto; margin-left : auto;">
+    <div style="width:600px; margin-right: auto; margin-left : auto; ">
+      <p>こちらから表示するファイルを選択してください<br>
+      <input type="file" id="getfile" accept="image/*">
+    </div>
+    <iframe
+      srcdoc="<html>
+                <head>
+                  <meta charset=&quot;utf-8&quot;>
+                  <title>Sky</title>
+                  <meta name=&quot;description&quot; content=&quot;Sky — A-Frame&quot;>
+                  <script src=&quot;https://aframe.io/releases/latest/aframe.min.js&quot;></script>
+                </head>
+                <body>
+                  <a-scene>
+                    <a-sky id=&quot;preview&quot; src=&quot; &quot; rotation=&quot;0 -130 0&quot;></a-sky>
+                  </a-scene>
+                </body>
+              </html>"
+      name="sample" width="600px" height="600px">
+  </body>
+</html>
